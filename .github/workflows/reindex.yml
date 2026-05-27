@@ -8,6 +8,8 @@ on:
 jobs:
   reindex:
     runs-on: ubuntu-latest
+    # Skip if deployment secrets are not configured
+    if: ${{ secrets.GITWIT_URL != '' && secrets.GITWIT_REPO_ID != '' }}
     steps:
       - name: Trigger GitWit re-index
         env:
