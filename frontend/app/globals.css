@@ -1,0 +1,115 @@
+:root {
+  --bg0:     #0a0a0a;
+  --bg1:     #111111;
+  --bg2:     #181818;
+  --bg3:     #202020;
+  --border:  #242424;
+  --border2: #2e2e2e;
+  --txt0:    #ebebeb;
+  --txt1:    #909090;
+  --txt2:    #4a4a4a;
+  --blue:    #6366f1;
+  --blue2:   #4f46e5;
+  --blue-dim:#1a1a3e;
+  --blue-glow: rgba(99,102,241,.14);
+  --green:   #22c55e;
+  --green-dim:#0a1a0f;
+  --amber:   #f59e0b;
+  --amber-dim:#1a1200;
+  --red:     #ef4444;
+  --red-dim: #1f0808;
+  --mono: var(--font-geist-mono), 'Fira Code', ui-monospace, monospace;
+  color-scheme: dark;
+}
+
+/* Light theme overrides */
+[data-theme="light"] {
+  --bg0:     #ffffff;
+  --bg1:     #f6f8fa;
+  --bg2:     #eaeef2;
+  --bg3:     #d0d7de;
+  --border:  #d0d7de;
+  --border2: #adb5bd;
+  --txt0:    #1f2328;
+  --txt1:    #57606a;
+  --txt2:    #8c959f;
+  --blue:    #4f46e5;
+  --blue2:   #3730a3;
+  --blue-dim:#eef2ff;
+  --blue-glow: rgba(79,70,229,.15);
+  --green:   #1a7f37;
+  --green-dim:#dcfce7;
+  --amber:   #9a6700;
+  --amber-dim:#fef9c3;
+  --red:     #d1242f;
+  --red-dim: #ffe8e8;
+  color-scheme: light;
+}
+
+[data-theme="light"] body {
+  background: #ffffff;
+  color: #1f2328;
+}
+
+[data-theme="light"] html {
+  background: #ffffff;
+}
+
+[data-theme="light"] ::selection {
+  background: rgba(9,105,218,.15);
+  color: #1f2328;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #d0d7de;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Theme transition — applied only when switching, not on first load */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition:
+    background-color 350ms ease,
+    border-color 350ms ease,
+    color 200ms ease,
+    box-shadow 350ms ease !important;
+}
+
+html { height: 100%; background: #0a0a0a; }
+
+body {
+  height: 100%; overflow: hidden;
+  font-family: var(--font-geist-sans), -apple-system, 'SF Pro Text', system-ui, sans-serif;
+  background: var(--bg0); color: var(--txt0);
+  font-size: 13px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  text-rendering: optimizeLegibility;
+}
+
+input, textarea, button, select { font-family: inherit; }
+input { color: var(--txt0); }
+input::placeholder, textarea::placeholder { color: var(--txt2); }
+a { color: inherit; text-decoration: none; }
+
+/* Subtle selection */
+::selection { background: rgba(59,130,246,.25); color: var(--txt0); }
+
+/* Thin scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+
+/* Animations */
+@keyframes pulse        { 0%,100%{opacity:1} 50%{opacity:.25} }
+@keyframes tdot         { 0%,80%,100%{transform:translateY(0);opacity:.4} 40%{transform:translateY(-5px);opacity:1} }
+@keyframes pshimmer     { 0%{opacity:.6} 50%{opacity:1} 100%{opacity:.6} }
+@keyframes indeterminate{ 0%{transform:translateX(-200%)} 100%{transform:translateX(350%)} }
+@keyframes fadein       { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+@keyframes spin         { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+@keyframes slideup      { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }

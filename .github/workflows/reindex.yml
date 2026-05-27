@@ -1,0 +1,20 @@
+﻿name: GitWit Re-index on Push
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  reindex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger GitWit re-index
+        env:
+          GITWIT_URL:     ${{ secrets.GITWIT_URL }}
+          GITWIT_REPO_ID: ${{ secrets.GITWIT_REPO_ID }}
+        run: |
+          curl -s -f -X POST \
+            "$GITWIT_URL/api/v1/repos/$GITWIT_REPO_ID/reindex" \
+            -H "Content-Type: application/json" \
+            -w "\nHTTP status: %{http_code}\n"

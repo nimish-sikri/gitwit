@@ -1,0 +1,67 @@
+# ── Python ────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+*.egg
+
+# ── Secrets & Env ─────────────────────────────────────────────────
+.env
+.env.local
+.env.production
+.env.*.local
+backend/.env
+backend/.env.runtime
+frontend/.env.local
+frontend/.env.production
+
+# ── Data (large — never commit) ───────────────────────────────────
+backend/data/
+data/repos/
+data/chromadb/
+*.log
+
+# ── Node / Next.js ────────────────────────────────────────────────
+node_modules/
+frontend/node_modules/
+.next/
+frontend/.next/
+.vercel/
+.turbo/
+
+# ── OS ────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# ── IDE ───────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.suo
+*.user
+*.swp
+*.swo
+
+# ── Docker ────────────────────────────────────────────────────────
+.dockerignore
+
+# ── Misc ──────────────────────────────────────────────────────────
+*.pyc
+*.pyo
+.pytest_cache/
+htmlcov/
+.coverage
+uvicorn*.log
+next.log
