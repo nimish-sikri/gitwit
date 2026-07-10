@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GitWit — Frontend
+
+The Next.js frontend for **GitWit**, an AI code-intelligence platform. It provides the dashboard UI (chat, search, file explorer, PR reviews), handles OAuth sign-in via NextAuth, and acts as an auth-aware proxy to the FastAPI backend.
+
+> For the full product overview see the [root README](../README.md). For a deep architecture walkthrough see [`../ARCHITECTURE.md`](../ARCHITECTURE.md).
+
+## Stack
+
+- **Next.js 16** (App Router) · **React 19** · **TypeScript**
+- **NextAuth.js** — GitHub, Google, and Bitbucket OAuth (JWT sessions)
+- **react-markdown** + **react-syntax-highlighter** — renders cited, syntax-highlighted answers
+- **Tailwind CSS v4** · **Tabler Icons**
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
+cp .env.local.example .env.local   # then fill in the values below
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The backend must be running (default `http://localhost:8001`) — see the [root README](../README.md).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment variables
 
-## Learn More
+Set these in `.env.local` (local) or the container environment (Docker):
 
-To learn more about Next.js, take a look at the following resources:
+| Variable | Description |
+|---|---|
+| `BACKEND_URL` | FastAPI backend URL (default `http://localhost:8001`) — where the proxy forwards requests |
+| `NEXTAUTH_URL` | This app's URL (e.g. `http://localhost:3000`) |
+| `NEXTAUTH_SECRET` | Random 32-char string (`openssl rand -base64 32`) |
+| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | GitHub OAuth app credentials |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth credentials (optional) |
+| `BITBUCKET_CLIENT_ID` / `BITBUCKET_CLIENT_SECRET` | Bitbucket Cloud OAuth credentials (optional) |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Only providers whose credentials are set appear on the sign-in page.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## How it fits together
 
-## Deploy on Vercel
+- `app/page.tsx` — the dashboard (sidebar + Chat / Reviews / Files / Search tabs)
+- `app/api/backend/[...path]/route.ts` — reverse proxy to the backend; injects the `X-User-ID` header for per-user repo isolation
+- `app/api/stream/[repoId]/route.ts` — streams the chat SSE response through from the backend
+- `middleware.ts` — requires auth on all routes except sign-in
+- `lib/api.ts` — typed API client · `lib/auth.ts` — NextAuth config · `lib/types.ts` — shared types
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> Note: this project pins a newer Next.js than most tooling expects (see `AGENTS.md`). Treat the conventions in the code (async route `params`, streaming `fetch` with `duplex: "half"`) as authoritative.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+
+```bash
+npm run dev     # dev server
+npm run build   # production build
+npm run start   # serve the production build
+npm run lint    # eslint
+```
